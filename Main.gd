@@ -3,6 +3,8 @@ extends Node
 # 0 - 1000
 # randi function returns a random number randi()%11+1
 
+onready var message = $Message
+
 var num
 var minGuess = 1
 var maxGuess = 1000
@@ -15,26 +17,37 @@ func _ready():
 	print("----------------")
 	print("Hello welcome to number guesser")
 	print("guess a number between one and one-thousand")
-	print("is " + str(num) + " your number ?")
+	message.text = "is " + str(num) + " your number ?"
 func _process(delta):
 	if Input.is_action_just_pressed("up"):
-		_tryGuess("up")
+		tryGuess("up")
 	elif Input.is_action_just_pressed("down"):
-		_tryGuess("down")
+		tryGuess("down")
 	elif Input.is_action_just_pressed("restart"):
 		if (end):
 			restartGame()
 		else:
 			endGame()
-func _tryGuess(type):
+func tryGuess(type):
 	if type == "up":
 		minGuess = num
 	else:
 		maxGuess = num
 	num = (minGuess + maxGuess) / 2
-	print("is " + str(num) + " your number ?")
+	message.text = "is " + str(num) + " your number ?"
 func endGame():
 	end = true
-	print("Yes! your number was " + str(num) + "!")
+	message.text = "Yes! your number was " + str(num) + "!"
 func restartGame():
 	get_tree().reload_current_scene()
+
+func _on_Less_pressed():
+	tryGuess("down")
+
+
+func _on_Greater_pressed():
+	tryGuess("up")
+
+
+func _on_Correct_pressed():
+	restartGame()
