@@ -4,6 +4,8 @@ extends Node
 # randi function returns a random number randi()%11+1
 
 onready var message = $Message
+onready var btnCorrect = $Correct
+
 
 var num
 var minGuess = 1
@@ -50,4 +52,9 @@ func _on_Greater_pressed():
 
 
 func _on_Correct_pressed():
-	restartGame()
+	if (end):
+		btnCorrect.text = "Correct"
+		restartGame()
+	else:
+		btnCorrect.text = "Restart"
+		endGame()
